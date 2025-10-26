@@ -1,0 +1,11 @@
+.hotel {
+    border: 1px solid #cdcdcd;
+    margin-bottom: 10px;
+    background-color: #efefef;
+    padding: 10px 20px;
+}
+.description {
+    margin-top:  10px;
+    color: rgb(107, 107, 107);
+    font-size: 0.9rem;
+}

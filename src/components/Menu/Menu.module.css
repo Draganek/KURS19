@@ -1,0 +1,12 @@
+.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 20px;
+    border: 1px solid #cdcdcd
+}
+
+.menu-item {
+    display: inline-block;
+    text-align: left;
+    margin-right: 10px;
+}
