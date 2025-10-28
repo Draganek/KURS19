@@ -15,7 +15,7 @@ export default function Hotel(props) {
                             <span className="badge text-bg-light">{props.city}</span>
                         </div>
                         <div className="col-6">
-                            <p><b>{props.rating}</b></p>
+                            <p><b>Ocena: {props.rating}</b></p>
                             <span className="badge text-bg-secondary">233</span>
                         </div>
                     </div>

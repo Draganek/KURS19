@@ -1,12 +1,12 @@
 import { useState } from "react"
 
-export default function SearchBar() {
+export default function SearchBar(props) {
     const [value, setValue] = useState('')
 
     const styles = { borderRadius: 8 , marginRight: 5}
 
     const onSearch = () => {
-        console.log(value);
+        props.onSearch(value)
     }
 
     return (
