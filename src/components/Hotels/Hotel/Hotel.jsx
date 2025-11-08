@@ -1,7 +1,21 @@
 import styles from './Hotel.module.css'
 //import hotelImg from '../../../assets/images/hotel.jpg'
 
+
+/**
+ * 
+ * @param {{
+ * id: number;
+ * name: string;
+ * city: string;
+ * rating: string;
+ * description: string;
+ * image: string;
+ * }} props 
+ */
+
 export default function Hotel(props) {
+
     return (
         <div className={styles.hotel}>
             <div className='row'>
@@ -25,7 +39,8 @@ export default function Hotel(props) {
                 {props.description}
             </p>
             <div className='text-end'>
-                <button className='btn btn-primary'>Pokaż</button>
+                <button className={`btn btn-${props.themeColor}`}>Pokaż</button>
+                {console.log(props.themeColor)}
             </div>
         </div>
     )

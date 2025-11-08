@@ -1,8 +1,13 @@
 import Header from '../Header/Header'
 import Hotels from '../Hotels/Hotels'
 import Menu from '../Menu/Menu'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
+import LoadingIcon from '../UI/LoadingIcon/LoadingIcon'
+import SearchBar from '../UI/SearchBar/SearchBar'
+import Layout from '../Layout/Layout'
+import Footer from '../Footer/Footer'
+import ThemeButton from '../UI/ThemeButton/ThemeButton'
 
 const initHotels = [
   {
@@ -25,6 +30,15 @@ const initHotels = [
 
 function App() {
   const [hotels, setHotels] = useState(initHotels)
+  const [loading, setLoading] = useState(true)
+  const [themeColor, setThemeColor] = useState('primary')
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHotels(initHotels)
+      setLoading(false)
+    }, 2000)
+  }, [])
 
   const onSearch = (query) => {
     const filteredHotels = initHotels
@@ -32,12 +46,28 @@ function App() {
     setHotels(filteredHotels)
   }
 
+  const changeColor = () => {
+    setThemeColor(themeColor === 'danger' ? 'primary' : 'danger')
+  }
+
 
   return (
     <>
-      <Header onSearch={onSearch} />
-      <Menu />
-      <Hotels hotels={hotels} />
+      <Layout
+        header={<Header>
+          <div className='d-flex' style={{gap: 10}}>
+            <SearchBar onSearch={onSearch} themeColor={themeColor} />
+            <ThemeButton onChange={changeColor}/>
+          </div>
+        </Header >}
+        menu={<Menu />}
+        content={
+          loading
+            ? <LoadingIcon />
+            : (<Hotels hotels={hotels} themeColor={themeColor} />)
+        }
+        footer={<Footer themeColor={themeColor} />}
+      />
     </>
   )
 }

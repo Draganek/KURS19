@@ -20,7 +20,7 @@ export default function SearchBar(props) {
                 onKeyDown={event => event.code === "Enter" && onSearch()}
             />
             <button 
-            className="btn btn-primary"
+            className={`btn btn-${props.themeColor}`}
             onClick={onSearch}
             >Szukaj!</button>
         </div>
