@@ -1,4 +1,6 @@
 import styles from './Hotel.module.css'
+import { useContext } from 'react'
+import ThemeContext from '../../../context/ThemeContext'
 //import hotelImg from '../../../assets/images/hotel.jpg'
 
 
@@ -15,6 +17,7 @@ import styles from './Hotel.module.css'
  */
 
 export default function Hotel(props) {
+    const themeColor = useContext(ThemeContext)
 
     return (
         <div className={styles.hotel}>
@@ -39,8 +42,7 @@ export default function Hotel(props) {
                 {props.description}
             </p>
             <div className='text-end'>
-                <button className={`btn btn-${props.themeColor}`}>Pokaż</button>
-                {console.log(props.themeColor)}
+                <button className={`btn btn-${themeColor.color}`}>Pokaż</button>
             </div>
         </div>
     )

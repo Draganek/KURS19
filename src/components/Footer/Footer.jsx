@@ -1,3 +1,10 @@
-export default function Footer({ themeColor }) {
-    return <p className={`text-${themeColor}`}>Stopka</p>
+import { useContext } from "react";
+import ThemeContext from "../../context/ThemeContext";
+
+export default function Footer() {
+    const themeContext = useContext(ThemeContext)
+
+    return (
+        <p className={`text-${themeContext.color}`}>Stopka</p>
+    )
 }

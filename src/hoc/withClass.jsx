@@ -1,0 +1,7 @@
+const withClass = (WrappedComponent, className) => (props) => (
+    <div className={className}>
+        <WrappedComponent {...props} />
+    </div>
+)
+
+export default withClass

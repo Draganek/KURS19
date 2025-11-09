@@ -1,13 +1,15 @@
 import Header from '../Header/Header'
 import Hotels from '../Hotels/Hotels'
 import Menu from '../Menu/Menu'
-import { useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import './App.css'
 import LoadingIcon from '../UI/LoadingIcon/LoadingIcon'
 import SearchBar from '../UI/SearchBar/SearchBar'
 import Layout from '../Layout/Layout'
 import Footer from '../Footer/Footer'
 import ThemeButton from '../UI/ThemeButton/ThemeButton'
+import ThemeContext from '../../context/ThemeContext'
+import AuthContext from '../../context/AuthContext'
 
 const initHotels = [
   {
@@ -32,6 +34,7 @@ function App() {
   const [hotels, setHotels] = useState(initHotels)
   const [loading, setLoading] = useState(true)
   const [themeColor, setThemeColor] = useState('primary')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     setTimeout(() => {
@@ -50,24 +53,37 @@ function App() {
     setThemeColor(themeColor === 'danger' ? 'primary' : 'danger')
   }
 
+  const header = (
+    <Header>
+      <div className='d-flex' style={{ gap: 10 }}>
+        <SearchBar onSearch={onSearch} themeColor={themeColor} />
+        <ThemeButton />
+      </div>
+    </Header >)
+
+  const content = loading
+    ? <LoadingIcon />
+    : <Hotels hotels={hotels} themeColor={themeColor} />
 
   return (
     <>
-      <Layout
-        header={<Header>
-          <div className='d-flex' style={{gap: 10}}>
-            <SearchBar onSearch={onSearch} themeColor={themeColor} />
-            <ThemeButton onChange={changeColor}/>
-          </div>
-        </Header >}
-        menu={<Menu />}
-        content={
-          loading
-            ? <LoadingIcon />
-            : (<Hotels hotels={hotels} themeColor={themeColor} />)
-        }
-        footer={<Footer themeColor={themeColor} />}
-      />
+      <ThemeContext.Provider value={{
+        color: themeColor,
+        changeColor,
+      }}>
+        <AuthContext.Provider value={{
+          isAuthenticated: !!user,
+          logIn: () => setUser(true),
+          logOut: () => setUser(null),
+        }}>
+        <Layout
+          header={header}
+          menu={<Menu />}
+          content={content}
+          footer={<Footer themeColor={themeColor} />}
+        />
+        </AuthContext.Provider>
+      </ThemeContext.Provider>
     </>
   )
 }
