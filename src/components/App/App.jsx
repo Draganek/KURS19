@@ -1,7 +1,7 @@
 import Header from '../Header/Header'
 import Hotels from '../Hotels/Hotels'
 import Menu from '../Menu/Menu'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useReducer, useState } from 'react'
 import './App.css'
 import LoadingIcon from '../UI/LoadingIcon/LoadingIcon'
 import SearchBar from '../UI/SearchBar/SearchBar'
@@ -30,16 +30,50 @@ const initHotels = [
   }
 ]
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'change-color':
+      return {
+        ...state,
+        color: state.color === 'primary' ? 'danger' : 'primary',
+      }
+    case 'set-loading':
+      return {
+        ...state,
+        loading: action.isLoading,
+      }
+    case 'login':
+      return {
+        ...state,
+        user: true,
+      }
+    case 'logout': 
+      return {
+        ...state,
+        user: false,
+      }
+    default:
+      throw new Error(`Nie ma takiej akcji ${action.type}`)
+  }
+}
+const initState = {
+  color: 'primary',
+  loading: true,
+  user: null,
+}
+
 function App() {
   const [hotels, setHotels] = useState(initHotels)
-  const [loading, setLoading] = useState(true)
-  const [themeColor, setThemeColor] = useState('primary')
-  const [user, setUser] = useState(null)
+  //const [loading, setLoading] = useState(true)
+  //const [themeColor, setThemeColor] = useState('primary')
+  //const [user, setUser] = useState(null)
+
+  const [state, dispatch] = useReducer(reducer, initState)
 
   useEffect(() => {
     setTimeout(() => {
       setHotels(initHotels)
-      setLoading(false)
+      dispatch({type: "set-loading", isLoading: false})
     }, 2000)
   }, [])
 
@@ -50,37 +84,38 @@ function App() {
   }
 
   const changeColor = () => {
-    setThemeColor(themeColor === 'danger' ? 'primary' : 'danger')
+    //setThemeColor(themeColor === 'danger' ? 'primary' : 'danger')
+    dispatch({type: "change-color"})
   }
 
   const header = (
     <Header>
       <div className='d-flex' style={{ gap: 10 }}>
-        <SearchBar onSearch={onSearch} themeColor={themeColor} />
+        <SearchBar onSearch={onSearch} themeColor={state.color} />
         <ThemeButton />
       </div>
     </Header >)
 
-  const content = loading
+  const content = state.loading
     ? <LoadingIcon />
-    : <Hotels hotels={hotels} themeColor={themeColor} />
+    : <Hotels hotels={hotels} themeColor={state.color} />
 
   return (
     <>
       <ThemeContext.Provider value={{
-        color: themeColor,
+        color: state.color,
         changeColor,
       }}>
         <AuthContext.Provider value={{
-          isAuthenticated: !!user,
-          logIn: () => setUser(true),
-          logOut: () => setUser(null),
+          isAuthenticated: !!state.user,
+          logIn: () => dispatch({type: "login"}),
+          logOut: () => dispatch({type: "logout"}),
         }}>
         <Layout
           header={header}
           menu={<Menu />}
           content={content}
-          footer={<Footer themeColor={themeColor} />}
+          footer={<Footer themeColor={state.color} />}
         />
         </AuthContext.Provider>
       </ThemeContext.Provider>
