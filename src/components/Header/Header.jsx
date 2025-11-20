@@ -1,5 +1,6 @@
 import styles from './Header.module.css'
 import withMousePosition from '../../hoc/withMousePosition'
+import InspirngQuote from '../UI/InspiringQuote/InspiringQuote'
 
 function Header(props) {
   const paralaxStyle = {
@@ -11,6 +12,7 @@ function Header(props) {
 
   return (
     <div className={`${styles.header}`} >
+      <InspirngQuote />
       <div className={styles.headerImage} style={paralaxStyle} />
       <div>
           {props.children}
