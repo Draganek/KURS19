@@ -23,7 +23,7 @@ export default function BestHotel(props) {
                 Najlepsza oferta!
             </div>
             <div className="card-body">
-                <div className="d-fles justify-content-between">
+                <div className="d-flex justify-content-between">
                     <h5 className="card-title">{props.hotel.name}</h5>
                     <p>Ocena: {props.hotel.rating}</p>
                 </div>

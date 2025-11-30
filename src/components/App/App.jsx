@@ -10,6 +10,8 @@ import Footer from '../Footer/Footer'
 import ThemeButton from '../UI/ThemeButton/ThemeButton'
 import ThemeContext from '../../context/ThemeContext'
 import AuthContext from '../../context/AuthContext'
+import useLocalStorage from '../../hooks/useLocalStorage'
+import useWebsiteTitle from '../../hooks/useWebsiteTitle'
 
 const initHotels = [
   {
@@ -32,11 +34,6 @@ const initHotels = [
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'change-color':
-      return {
-        ...state,
-        color: state.color === 'primary' ? 'danger' : 'primary',
-      }
     case 'set-loading':
       return {
         ...state,
@@ -63,10 +60,12 @@ const initState = {
 }
 
 function App() {
+  useWebsiteTitle('Home')
   const [hotels, setHotels] = useState(initHotels)
   //const [loading, setLoading] = useState(true)
   //const [themeColor, setThemeColor] = useState('primary')
   //const [user, setUser] = useState(null)
+  const [localColor, setLocalColor] = useLocalStorage('themeColor', 'primary')
 
   const [state, dispatch] = useReducer(reducer, initState)
 
@@ -84,26 +83,25 @@ function App() {
   }
 
   const changeColor = () => {
-    //setThemeColor(themeColor === 'danger' ? 'primary' : 'danger')
-    dispatch({type: "change-color"})
+    setLocalColor(localColor === 'danger' ? 'primary' : 'danger')
   }
 
   const header = (
     <Header>
       <div className='d-flex' style={{ gap: 10 }}>
-        <SearchBar onSearch={onSearch} themeColor={state.color} />
+        <SearchBar onSearch={onSearch} themeColor={localColor} />
         <ThemeButton />
       </div>
     </Header >)
 
   const content = state.loading
     ? <LoadingIcon />
-    : <Hotels hotels={hotels} themeColor={state.color} />
+    : <Hotels hotels={hotels} themeColor={localColor} />
 
   return (
     <>
       <ThemeContext.Provider value={{
-        color: state.color,
+        color: localColor,
         changeColor,
       }}>
         <AuthContext.Provider value={{
@@ -115,7 +113,7 @@ function App() {
           header={header}
           menu={<Menu />}
           content={content}
-          footer={<Footer themeColor={state.color} />}
+          footer={<Footer themeColor={localColor} />}
         />
         </AuthContext.Provider>
       </ThemeContext.Provider>

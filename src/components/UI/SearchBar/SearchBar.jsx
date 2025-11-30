@@ -1,8 +1,9 @@
 import { useState, useContext, useRef, useEffect } from "react"
 import ThemeContext from "../../../context/ThemeContext"
+import useLocalStorage from "../../../hooks/useLocalStorage"
 
 export default function SearchBar(props) {
-    const [value, setValue] = useState('')
+    const [value, setValue] = useLocalStorage('query', '')
     const themeContext = useContext(ThemeContext)
     const inputRef = useRef(null)
 
