@@ -1,7 +1,7 @@
 import Header from '../Header/Header'
 import Hotels from '../Hotels/Hotels'
 import Menu from '../Menu/Menu'
-import { createContext, useEffect, useReducer, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import './App.css'
 import LoadingIcon from '../UI/LoadingIcon/LoadingIcon'
 import SearchBar from '../UI/SearchBar/SearchBar'
@@ -12,61 +12,15 @@ import ThemeContext from '../../context/ThemeContext'
 import AuthContext from '../../context/AuthContext'
 import useLocalStorage from '../../hooks/useLocalStorage'
 import useWebsiteTitle from '../../hooks/useWebsiteTitle'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import { initHotels, reducer, initState } from '../../reducer'
 
-const initHotels = [
-  {
-    id: 1,
-    name: 'Pod akacjami',
-    city: 'Warszawa',
-    rating: '8.5',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    image: 'https://picsum.photos/id/237/300/200',
-  },
-  {
-    id: 2,
-    name: 'Dębowy',
-    city: 'Lublin',
-    rating: '9',
-    description: 'Sorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    image: 'https://picsum.photos/id/238/300/200',
-  }
-]
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'set-loading':
-      return {
-        ...state,
-        loading: action.isLoading,
-      }
-    case 'login':
-      return {
-        ...state,
-        user: true,
-      }
-    case 'logout': 
-      return {
-        ...state,
-        user: false,
-      }
-    default:
-      throw new Error(`Nie ma takiej akcji ${action.type}`)
-  }
-}
-const initState = {
-  color: 'primary',
-  loading: true,
-  user: null,
-}
 
 function App() {
   useWebsiteTitle('Home')
   const [hotels, setHotels] = useState(initHotels)
-  //const [loading, setLoading] = useState(true)
-  //const [themeColor, setThemeColor] = useState('primary')
-  //const [user, setUser] = useState(null)
   const [localColor, setLocalColor] = useLocalStorage('themeColor', 'primary')
-
   const [state, dispatch] = useReducer(reducer, initState)
 
   useEffect(() => {
@@ -94,12 +48,17 @@ function App() {
       </div>
     </Header >)
 
-  const content = state.loading
-    ? <LoadingIcon />
-    : <Hotels hotels={hotels} themeColor={localColor} />
+  const content = (
+    <Routes>
+      <Route index element={<Hotels hotels={hotels} />} />
+      <Route path='/hotel/:id' element={<h1>To jest strona hotel</h1>} />
+      <Route path='/login' element={<h1>Logowanie</h1>} />
+      <Route path='/register' element={<h1>Rejestracja</h1>} />
+    </Routes>
+  )
 
   return (
-    <>
+    <BrowserRouter>
       <ThemeContext.Provider value={{
         color: localColor,
         changeColor,
@@ -112,12 +71,12 @@ function App() {
         <Layout
           header={header}
           menu={<Menu />}
-          content={content}
+          content={state.loading ? <LoadingIcon /> : content}
           footer={<Footer themeColor={localColor} />}
         />
         </AuthContext.Provider>
       </ThemeContext.Provider>
-    </>
+    </BrowserRouter>
   )
 }
 
