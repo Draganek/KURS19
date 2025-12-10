@@ -28,9 +28,9 @@ export default function BestHotel(props) {
                     <p>Ocena: {props.hotel.rating}</p>
                 </div>
                 <p>Do końca oferty pozostało: {time}</p>
-                <button onClick={() => props.onShow(props.hotel)} className="btn btn-sm btn-light">
+                <Link to={`/hotel/${props.hotel.id}`} className="btn btn-sm btn-light">
                     Pokaż
-                </button>
+                </Link>
             </div>
         </div>
     )

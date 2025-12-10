@@ -34,13 +34,25 @@ export const reducer = (state, action) => {
         ...state,
         user: false,
       }
+    case 'set-hotels':
+      return {
+        ...state,
+        visibleHotels: action.hotels
+      }
+    case 'set-visible-hotels':
+      return {
+        ...state,
+        hotels: action.hotels
+      }
     default:
       throw new Error(`Nie ma takiej akcji ${action.type}`)
   }
 }
 
-const initState = {
+export const initState = {
   color: 'primary',
   loading: true,
   user: null,
+  hotels: [],
+  visibleHotels: []
 }

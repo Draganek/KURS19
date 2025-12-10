@@ -1,9 +1,7 @@
 import Header from '../Header/Header'
-import Hotels from '../Hotels/Hotels'
 import Menu from '../Menu/Menu'
-import { useEffect, useReducer, useState } from 'react'
+import { useReducer } from 'react'
 import './App.css'
-import LoadingIcon from '../UI/LoadingIcon/LoadingIcon'
 import SearchBar from '../UI/SearchBar/SearchBar'
 import Layout from '../Layout/Layout'
 import Footer from '../Footer/Footer'
@@ -11,34 +9,23 @@ import ThemeButton from '../UI/ThemeButton/ThemeButton'
 import ThemeContext from '../../context/ThemeContext'
 import AuthContext from '../../context/AuthContext'
 import useLocalStorage from '../../hooks/useLocalStorage'
-import useWebsiteTitle from '../../hooks/useWebsiteTitle'
 import { BrowserRouter, Route, Routes } from 'react-router'
-import { initHotels, reducer, initState } from '../../reducer'
+import { reducer, initState } from '../../reducer'
+import Home from '../pages/Home'
 
 
 
 function App() {
-  useWebsiteTitle('Home')
-  const [hotels, setHotels] = useState(initHotels)
   const [localColor, setLocalColor] = useLocalStorage('themeColor', 'primary')
   const [state, dispatch] = useReducer(reducer, initState)
 
-  useEffect(() => {
-    setTimeout(() => {
-      setHotels(initHotels)
-      dispatch({type: "set-loading", isLoading: false})
-    }, 2000)
-  }, [])
-
   const onSearch = (query) => {
-    const filteredHotels = initHotels
+    const filteredHotels = state.hotels
       .filter(hotel => hotel.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()))
-    setHotels(filteredHotels)
+    dispatch({type: 'set-visible-hotels', hotels: filteredHotels})
   }
 
-  const changeColor = () => {
-    setLocalColor(localColor === 'danger' ? 'primary' : 'danger')
-  }
+  const changeColor = () => {setLocalColor(localColor === 'danger' ? 'primary' : 'danger')}
 
   const header = (
     <Header>
@@ -50,7 +37,7 @@ function App() {
 
   const content = (
     <Routes>
-      <Route index element={<Hotels hotels={hotels} />} />
+      <Route index element={<Home state={state} dispatch={dispatch}/>} />
       <Route path='/hotel/:id' element={<h1>To jest strona hotel</h1>} />
       <Route path='/login' element={<h1>Logowanie</h1>} />
       <Route path='/register' element={<h1>Rejestracja</h1>} />
@@ -71,7 +58,7 @@ function App() {
         <Layout
           header={header}
           menu={<Menu />}
-          content={state.loading ? <LoadingIcon /> : content}
+          content={content}
           footer={<Footer themeColor={localColor} />}
         />
         </AuthContext.Provider>
