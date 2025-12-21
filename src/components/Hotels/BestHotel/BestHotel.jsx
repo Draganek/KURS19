@@ -1,5 +1,6 @@
 import moment from "moment"
 import { useEffect, useState } from "react"
+import { Link } from "react-router"
 
 export default function BestHotel(props) {
     const endTime = moment().add(23,'minutes').add(5,'seconds')
