@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import useAuth from '../../hooks/useAuth'
 import styles from './Menu.module.css'
 
@@ -19,14 +19,18 @@ export default function Menu() {
         <div>
             <ul className={styles.menu}>
                 <li className={styles.menuItem}>
-                    <Link to="/">Home</Link>
+                    <NavLink to="/">Home</NavLink>
                 </li>
                 {user ? (
-                    <li className={styles.menuItem}>
-                        <a href="#" onClick={logOut}>Wyloguj</a>
+                    <><li className={styles.menuItem}>
+                        <NavLink to="profile">Mój profil</NavLink>
                     </li>
+                        <li className={styles.menuItem}>
+                            <a href="#" onClick={logOut}>Wyloguj</a>
+                        </li>
+                    </>
                 ) : (<li className={styles.menuItem}>
-                    <Link to="/login">Zaloguj</Link>
+                    <NavLink to="/login">Zaloguj</NavLink>
                 </li>)}
             </ul>
         </div>

@@ -1,16 +1,21 @@
-import { useState, useContext, useRef, useEffect } from "react"
+import { useContext, useRef, useEffect } from "react"
 import ThemeContext from "../../../context/ThemeContext"
 import useLocalStorage from "../../../hooks/useLocalStorage"
+import { useNavigate } from "react-router"
 
 export default function SearchBar(props) {
     const [value, setValue] = useLocalStorage('query', '')
     const themeContext = useContext(ThemeContext)
     const inputRef = useRef(null)
+    const navigate = useNavigate()
 
-    const styles = { borderRadius: 8 , marginRight: 5}
+    const styles = { borderRadius: 8, marginRight: 5 }
 
     const onSearch = () => {
-        props.onSearch(value)
+        // const filteredHotels = state.hotels
+        //   .filter(hotel => hotel.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()))
+        //dispatch({type: 'set-visible-hotels', hotels: filteredHotels})
+        navigate(`search?fraza=${value}`)
     }
 
     useEffect(() => {
@@ -28,10 +33,12 @@ export default function SearchBar(props) {
                 onChange={(event) => setValue(event.target.value)}
                 onKeyDown={event => event.code === "Enter" && onSearch()}
             />
-            <button 
-            className={`btn btn-${themeContext.color}`}
-            onClick={onSearch}
+            <button
+                className={`btn btn-${themeContext.color}`}
+                onClick={onSearch}
+                disabled={!value}
             >Szukaj!</button>
+            
         </div>
     )
 }
