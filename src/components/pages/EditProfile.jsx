@@ -12,12 +12,14 @@ const initState = {
     }
 }
 
+
 export default function EditProfile() {
     const [state, formAction, isPending] = useActionState(editProfileAction, initState)
     //const [email, setEmail] = useState('test@gmail.com')
-
+    
 
     return (
+        
         <div className="card">
             {state.success === false && (
                 <div className="alert alert-danger m-2">{state.errors.join('. ')}</div>

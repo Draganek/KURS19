@@ -18,6 +18,8 @@ import NotFound from '../pages/NotFound'
 import AuthenticatedRoute from '../AuthenticatedRoute/AuthenticatedRoute'
 import Login from '../pages/Auth/Login'
 import EditProfile from '../pages/EditProfile'
+import MyHotels from '../pages/MyHotels/MyHotels'
+import AddHotel from '../pages/MyHotels/AddHotel'
 
 const ProfilePage = lazy(() => import('../pages/ProfilePage'))
 
@@ -48,7 +50,8 @@ function App() {
       <Route element={<AuthenticatedRoute />}>
         <Route path='/profile' element={<ProfilePage />} >
           <Route index element={<EditProfile />} />
-          <Route path='hotels' element='hotels' />
+          <Route path='hotels' element={<MyHotels />} />
+          <Route path='add-hotel' element={<AddHotel />} />
         </Route>
       </Route>
       <Route path='*' element={<NotFound />} />
