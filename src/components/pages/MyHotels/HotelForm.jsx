@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Input from "../../UI/Input/Input";
+import { validate } from "../../lib/validators";
+import Button  from '../../../components/UI/Button';
 
 export default function HotelForm() {
   const [form, setForm] = useState({
     title: {
-      value: 'nazwa',
+      value: '',
       error: '',
       rules: ['required']
     },
@@ -26,7 +28,7 @@ export default function HotelForm() {
     file: {
       value: '',
       error: '',
-      rules: ['required']
+      rules: []
     },
     status: {
       value: 0,
@@ -38,7 +40,9 @@ export default function HotelForm() {
       error: '',
     },
   })
-  const validate = () => ''
+
+  const isValid = Object.values(form).map(x => x.error).filter(x => x).length === 0
+
   const onInputChange = (field, value) => {
     const newValue = {
       ...form[field],
@@ -106,6 +110,9 @@ export default function HotelForm() {
         error={form.features.error}
         onChange={value => onInputChange('features', value)}
       />
+      <div className="mt-4 text-end">
+        <Button disabled={!isValid}>Zapisz</Button>
+      </div>
     </>
   )
 }
