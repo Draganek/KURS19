@@ -7,7 +7,7 @@ const initState = {
     success: null,
     errors: [],
     values: {
-        email: 'test@gmail.com',
+        email: '',
         password: ''
     }
 }

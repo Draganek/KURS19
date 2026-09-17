@@ -20,6 +20,7 @@ import Login from '../pages/Auth/Login'
 import EditProfile from '../pages/EditProfile'
 import MyHotels from '../pages/MyHotels/MyHotels'
 import AddHotel from '../pages/MyHotels/AddHotel'
+import Register from '../pages/Auth/Register'
 
 const ProfilePage = lazy(() => import('../pages/ProfilePage'))
 
@@ -45,7 +46,7 @@ function App() {
       <Route index element={<Home state={state} dispatch={dispatch} />} />
       <Route path='/hotel/:id' element={<HotelPreview />} />
       <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<h1>Rejestracja</h1>} />
+      <Route path='/register' element={<Register />} />
       <Route path='/search' element={<Search />} />
       <Route element={<AuthenticatedRoute />}>
         <Route path='/profile' element={<ProfilePage />} >

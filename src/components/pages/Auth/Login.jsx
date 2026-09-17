@@ -56,7 +56,7 @@ export default function Login() {
 
     return (
         <div className="card">
-            <div className="card-header">
+            <div className="card-header">Logowanie</div>
                 <form action="" className="card-body" onSubmit={onSubmit}>
                     <div className="mb-3">
                         <label className="form-label">Login</label>
@@ -91,6 +91,5 @@ export default function Login() {
                     <Button disabled={!isValid} loading={loading}>Zaloguj</Button>
                 </form>
             </div>
-        </div>
     )
 }

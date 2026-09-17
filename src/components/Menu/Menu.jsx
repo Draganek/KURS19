@@ -29,9 +29,15 @@ export default function Menu() {
                             <a href="#" onClick={logOut}>Wyloguj</a>
                         </li>
                     </>
-                ) : (<li className={styles.menuItem}>
-                    <NavLink to="/login">Zaloguj</NavLink>
-                </li>)}
+                ) : (
+                    <>
+                        <li className={styles.menuItem}>
+                            <NavLink to="/login">Zaloguj</NavLink>
+                        </li>
+                        <li className={styles.menuItem}>
+                            <NavLink to="/register">Rejestracja</NavLink>
+                        </li>
+                    </>)}
             </ul>
         </div>
     )
